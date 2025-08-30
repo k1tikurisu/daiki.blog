@@ -6,7 +6,7 @@ export async function getStaticPaths() {
   const posts = await getCollection('posts', ({ data }) => {
     return data.draft !== true;
   });
-  
+
   return posts.map((post) => ({
     params: { slug: post.id },
     props: { post },
@@ -26,14 +26,16 @@ const { Content } = await render(post);
     <header class="post-header">
       <h1 class="post-title">{post.data.title}</h1>
       <time class="post-meta" datetime={post.data.date.toISOString()}>
-        {post.data.date.toLocaleDateString('ja-JP', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
-        })}
+        {
+          post.data.date.toLocaleDateString('ja-JP', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          })
+        }
       </time>
     </header>
-    
+
     <div class="post-content">
       <Content />
     </div>
@@ -56,7 +58,7 @@ const { Content } = await render(post);
     font-weight: 700;
     line-height: 1.3;
     margin-bottom: 1rem;
-    font-feature-settings: "palt" 1;
+    font-feature-settings: 'palt' 1;
   }
 
   .post-meta {
@@ -67,7 +69,7 @@ const { Content } = await render(post);
   .post-content {
     font-size: 1rem;
     line-height: 1.8;
-    font-feature-settings: "palt" 1;
+    font-feature-settings: 'palt' 1;
   }
 
   .post-content :global(h1) {
@@ -161,6 +163,18 @@ const { Content } = await render(post);
     font-weight: 600;
   }
 
+  .post-content :global(th[align="left"]), .post-content :global(td[align="left"]) {
+    text-align: left;
+  }
+
+  .post-content :global(th[align="center"]), .post-content :global(td[align="center"]) {
+    text-align: center;
+  }
+
+  .post-content :global(th[align="right"]), .post-content :global(td[align="right"]) {
+    text-align: right;
+  }
+
   .post-content :global(img) {
     max-width: 100%;
     height: auto;
@@ -191,6 +205,47 @@ const { Content } = await render(post);
 
   .post-content :global(em) {
     font-style: italic;
+  }
+
+  .post-content :global(dl) {
+    margin-bottom: 1.5rem;
+    border-left: 3px solid var(--color-border);
+    padding-left: 1rem;
+  }
+
+  .post-content :global(dt) {
+    font-weight: 600;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+  }
+
+  .post-content :global(dt:first-child) {
+    margin-top: 0;
+  }
+
+  .post-content :global(dd) {
+    margin-left: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-text-light);
+    position: relative;
+  }
+
+  .post-content :global(dd:before) {
+    content: "→";
+    position: absolute;
+    left: -1rem;
+    color: var(--color-border);
+  }
+
+  .post-content :global(abbr) {
+    text-decoration: underline dotted;
+    cursor: help;
+  }
+
+  /* Hide abbr definition lines that start with *[ */
+  .post-content :global(p[data-abbr-def]), .post-content :global(.abbr-definition) {
+    display: none !important;
   }
 
   @media (max-width: 640px) {

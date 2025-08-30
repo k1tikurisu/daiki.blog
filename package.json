@@ -22,7 +22,9 @@
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.12",
-    "astro": "^5.13.5"
+    "@richardtowers/remark-abbr": "^1.1.5",
+    "astro": "^5.13.5",
+    "remark-definition-list": "^2.0.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^8.41.0",

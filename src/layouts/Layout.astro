@@ -256,8 +256,55 @@ const cfAnalyticsToken = import.meta.env.CF_ANALYTICS_TOKEN;
     font-weight: 600;
   }
 
+  th[align="left"], td[align="left"] {
+    text-align: left;
+  }
+
+  th[align="center"], td[align="center"] {
+    text-align: center;
+  }
+
+  th[align="right"], td[align="right"] {
+    text-align: right;
+  }
+
   img {
     max-width: 100%;
     height: auto;
+  }
+
+  dl {
+    margin-bottom: 1.5rem;
+    border-left: 3px solid var(--color-border);
+    padding-left: 1rem;
+  }
+
+  dt {
+    font-weight: 600;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+  }
+
+  dt:first-child {
+    margin-top: 0;
+  }
+
+  dd {
+    margin-left: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-text-light);
+    position: relative;
+  }
+
+  dd:before {
+    content: "→";
+    position: absolute;
+    left: -1rem;
+    color: var(--color-border);
+  }
+
+  abbr {
+    text-decoration: underline dotted;
   }
 </style>
