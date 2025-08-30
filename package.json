@@ -16,7 +16,9 @@
     "lint:text": "textlint content/**/*.md",
     "lint:text:fix": "textlint content/**/*.md --fix",
     "lint:all": "npm run lint && npm run lint:md && npm run lint:text",
-    "fix:all": "npm run lint:fix && npm run format && npm run lint:md:fix && npm run lint:text:fix"
+    "fix:all": "npm run lint:fix && npm run format && npm run lint:md:fix && npm run lint:text:fix",
+    "deploy": "wrangler pages deploy dist",
+    "deploy:preview": "wrangler pages deploy dist --env preview"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.12",
@@ -32,6 +34,7 @@
     "prettier-plugin-astro": "^0.14.1",
     "textlint": "^15.2.2",
     "textlint-rule-preset-ja-technical-writing": "^12.0.2",
-    "textlint-rule-prh": "^6.1.0"
+    "textlint-rule-prh": "^6.1.0",
+    "wrangler": "^4.33.1"
   }
 }

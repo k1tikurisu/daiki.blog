@@ -7,6 +7,7 @@ export interface Props {
 
 const { title, description = 'A simple blog', image = '/icon.jpeg' } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://daiki.blog');
+const cfAnalyticsToken = import.meta.env.CF_ANALYTICS_TOKEN;
 ---
 
 <!doctype html>
@@ -39,6 +40,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://daiki.bl
     <meta name="twitter:image" content={new URL(image, Astro.site || 'https://daiki.blog')} />
     
     <title>{title}</title>
+    
+    <!-- Cloudflare Web Analytics -->
+    {import.meta.env.PROD && cfAnalyticsToken && (
+      <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon={JSON.stringify({token: cfAnalyticsToken})}></script>
+    )}
   </head>
   <body>
     <header>
