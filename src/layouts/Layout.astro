@@ -2,9 +2,11 @@
 export interface Props {
   title: string;
   description?: string;
+  image?: string;
 }
 
-const { title, description = 'A simple blog' } = Astro.props;
+const { title, description = 'A simple blog', image = '/icon.jpeg' } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://daiki.blog');
 ---
 
 <!doctype html>
@@ -14,12 +16,38 @@ const { title, description = 'A simple blog' } = Astro.props;
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalURL} />
+    
+    <!-- RSS Feed -->
+    <link rel="alternate" type="application/rss+xml" title="daiki.blog RSS" href="/rss.xml" />
+    
+    <!-- OGP -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.site || 'https://daiki.blog')} />
+    <meta property="og:site_name" content="daiki.blog" />
+    <meta property="og:locale" content="ja_JP" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@k1tikurisu" />
+    <meta name="twitter:creator" content="@k1tikurisu" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(image, Astro.site || 'https://daiki.blog')} />
+    
     <title>{title}</title>
   </head>
   <body>
     <header>
       <nav>
         <a href="/" class="site-title">daiki.blog</a>
+        <div class="nav-links">
+          <a href="/about" class="nav-link">About</a>
+          <a href="/rss.xml" class="nav-link">RSS</a>
+        </div>
       </nav>
     </header>
     <main>
@@ -65,13 +93,16 @@ const { title, description = 'A simple blog' } = Astro.props;
   }
 
   header {
-    padding: 2rem 1rem;
+    padding: 1rem;
     border-bottom: 1px solid var(--color-border);
   }
 
   nav {
     max-width: var(--max-width);
     margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .site-title {
@@ -82,6 +113,22 @@ const { title, description = 'A simple blog' } = Astro.props;
   }
 
   .site-title:hover {
+    opacity: 0.7;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .nav-link {
+    color: var(--color-text);
+    text-decoration: none;
+    font-weight: 500;
+    transition: opacity 0.2s;
+  }
+
+  .nav-link:hover {
     opacity: 0.7;
   }
 

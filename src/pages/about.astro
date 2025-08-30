@@ -1,0 +1,90 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icons from '../components/Icons.astro';
+---
+
+<Layout title="About - daiki.blog" description="daikieについて">
+  <article class="about">
+    <img src="/icon.jpeg" alt="daiki" class="avatar" />
+    <h1>daiki</h1>
+    <p class="bio">ソフトウェアエンジニア。Webアプリケーション開発を中心に、学んだことや技術的な試行錯誤を記録しています。</p>
+    
+    <div class="links">
+      <a href="https://x.com/k1tikurisu" target="_blank" rel="noopener noreferrer" class="link">
+        <Icons name="x" size={18} />
+      </a>
+      <a href="https://github.com/k1tikurisu" target="_blank" rel="noopener noreferrer" class="link">
+        <Icons name="github" size={18} />
+      </a>
+      <a href="mailto:k1tikurisu@gmail.com" class="link">
+        <Icons name="mail" size={18} />
+      </a>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .about {
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    object-fit: cover;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    margin-top: 0;
+  }
+
+  .bio {
+    color: var(--color-text-light);
+    margin-bottom: 2.5rem;
+    font-size: 1rem;
+  }
+
+  .links {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .link {
+    color: var(--color-text-light);
+    text-decoration: none;
+    transition: opacity 0.2s;
+    padding: 0.5rem;
+  }
+
+  .link:hover {
+    opacity: 0.7;
+  }
+
+  .link svg {
+    color: var(--color-text-light);
+  }
+
+  @media (max-width: 640px) {
+    .avatar {
+      width: 70px;
+      height: 70px;
+    }
+    
+    h1 {
+      font-size: 1.25rem;
+    }
+    
+    .bio {
+      font-size: 0.9rem;
+    }
+  }
+</style>
