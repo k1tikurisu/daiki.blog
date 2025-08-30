@@ -1,0 +1,121 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('posts', ({ data }) => {
+  return data.draft !== true;
+});
+
+const sortedPosts = posts.sort((a, b) => {
+  return b.data.date.valueOf() - a.data.date.valueOf();
+});
+
+const postsByYear = sortedPosts.reduce((acc, post) => {
+  const year = post.data.date.getFullYear();
+  if (!acc[year]) {
+    acc[year] = [];
+  }
+  acc[year].push(post);
+  return acc;
+}, {} as Record<number, typeof posts>);
+
+const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a));
+---
+
+<Layout title="daiki.blog">
+  <article class="posts">
+    {years.map(year => (
+      <section class="year-section">
+        <h2 class="year-title">{year}</h2>
+        <ul class="post-list">
+          {postsByYear[Number(year)].map(post => (
+            <li class="post-item">
+              <time class="post-date" datetime={post.data.date.toISOString()}>
+                {post.data.date.toLocaleDateString('ja-JP', {
+                  year: 'numeric',
+                  month: '2-digit',
+                  day: '2-digit'
+                }).replace(/\//g, '-')}
+              </time>
+              <a href={`/posts/${post.id}`} class="post-link">
+                {post.data.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+    
+    {posts.length === 0 && (
+      <p class="no-posts">まだ投稿がありません。</p>
+    )}
+  </article>
+</Layout>
+
+<style>
+  .posts {
+    max-width: var(--max-width);
+  }
+
+  .year-section {
+    margin-bottom: 3rem;
+  }
+
+  .year-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--color-border);
+  }
+
+  .post-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .post-item {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 1rem;
+    line-height: 1.8;
+  }
+
+  .post-date {
+    flex-shrink: 0;
+    margin-right: 1.5rem;
+    color: var(--color-text-light);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+
+  .post-link {
+    color: var(--color-text);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .post-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .no-posts {
+    color: var(--color-text-light);
+    text-align: center;
+    padding: 4rem 0;
+  }
+
+  @media (max-width: 640px) {
+    .post-item {
+      flex-direction: column;
+      margin-bottom: 1.5rem;
+    }
+
+    .post-date {
+      margin-right: 0;
+      margin-bottom: 0.25rem;
+      font-size: 0.875rem;
+    }
+  }
+</style>
