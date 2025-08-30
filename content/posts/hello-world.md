@@ -1,9 +1,7 @@
 ---
-title: "Hello World"
+title: 'Hello World'
 date: 2025-08-30
 ---
-
-# 見出し1
 
 ## 見出し2
 
@@ -41,5 +39,13 @@ _斜体テキスト_
 
 ![代替テキスト](https://via.placeholder.com/150)
 ![タイトル付き画像](https://via.placeholder.com/150 '画像のタイトル')
+
+```ts
+# コードブロック
+const a = 1;
+const b = 2;
+const c = a + b;
+console.log(c);
+```
 
 `インラインコード`
