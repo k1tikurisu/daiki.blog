@@ -1,7 +1,7 @@
 ---
-title: "Astroでシンプルなブログを作る"
+title: 'Astroでシンプルなブログを作る'
 date: 2025-01-21
-description: "Astroを使ってミニマルなブログサイトを構築する方法"
+description: 'Astroを使ってミニマルなブログサイトを構築する方法'
 draft: false
 ---
 
@@ -26,7 +26,7 @@ npm install
 
 ## ディレクトリ構造
 
-```
+```bash
 src/
 ├── content/
 │   └── posts/

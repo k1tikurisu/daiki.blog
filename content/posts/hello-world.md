@@ -1,7 +1,7 @@
 ---
-title: "はじめての投稿"
+title: 'はじめての投稿'
 date: 2025-01-20
-description: "ブログを始めました"
+description: 'ブログを始めました'
 draft: false
 ---
 

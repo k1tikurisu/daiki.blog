@@ -1,7 +1,7 @@
 ---
-title: "2024年の振り返り"
+title: '2024年の振り返り'
 date: 2024-12-31
-description: "2024年に学んだことと来年の目標"
+description: '2024年に学んだことと来年の目標'
 draft: false
 ---
 
