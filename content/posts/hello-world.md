@@ -1,6 +1,7 @@
 ---
 title: 'Hello World'
 date: 2025-08-30
+description: 'Hello World の Description'
 ---
 
 ## 見出し2
