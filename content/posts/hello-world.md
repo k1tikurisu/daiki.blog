@@ -28,7 +28,6 @@ _斜体テキスト_
 > 引用ブロック
 >
 > 複数行の引用
-
 > ネストした引用
 >
 > > 二重引用
@@ -238,7 +237,7 @@ description: YAMLの例
 
 HTML は HyperText Markup Language の略です。
 
-*[HTML]: HyperText Markup Language
+\*[HTML]: HyperText Markup Language
 
 ## 詳細と要約
 
