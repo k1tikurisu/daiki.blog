@@ -4,7 +4,7 @@
     "esbenp.prettier-vscode",
     "dbaeumer.vscode-eslint",
     "davidanson.vscode-markdownlint",
-    "taichi.vscode-textlint"
+    "3w36zj6.vscode-textlint"
   ],
   "unwantedRecommendations": []
 }

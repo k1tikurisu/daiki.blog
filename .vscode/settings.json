@@ -20,13 +20,5 @@
       "source.fixAll.markdownlint": "explicit"
     }
   },
-  "eslint.validate": [
-    "javascript",
-    "typescript",
-    "astro"
-  ],
-  "textlint.languages": [
-    "markdown"
-  ],
-  "textlint.run": "onSave"
+  "eslint.validate": ["javascript", "typescript", "astro"]
 }
