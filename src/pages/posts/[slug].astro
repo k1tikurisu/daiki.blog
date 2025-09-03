@@ -1,39 +1,84 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getCollection, type CollectionEntry, render } from 'astro:content';
+import { getGitDates, isSameDate } from '../../utils/git';
+import path from 'path';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts', ({ data }) => {
     return data.draft !== true;
   });
 
-  return posts.map((post) => ({
-    params: { slug: post.id },
-    props: { post },
-  }));
+  return posts.map((post) => {
+    // Git履歴から日付を取得
+    const filePath = path.join(
+      process.cwd(),
+      'content',
+      'posts',
+      `${post.id}.md`
+    );
+    const gitDates = getGitDates(filePath);
+
+    return {
+      params: { slug: post.id },
+      props: {
+        post,
+        gitDates,
+      },
+    };
+  });
 }
 
 type Props = {
   post: CollectionEntry<'posts'>;
+  gitDates: {
+    createdAt: Date | null;
+    updatedAt: Date | null;
+  };
 };
 
-const { post } = Astro.props;
+const { post, gitDates } = Astro.props;
 const { Content } = await render(post);
+
+// 表示用の日付を決定（Git履歴がない場合はfrontmatterのdateを使用）
+const createdAt = gitDates.createdAt || post.data.date;
+const updatedAt = gitDates.updatedAt || post.data.date;
+const showUpdatedDate =
+  updatedAt && createdAt && !isSameDate(createdAt, updatedAt);
 ---
 
 <Layout title={post.data.title} description={post.data.description}>
   <article class="post">
     <header class="post-header">
       <h1 class="post-title">{post.data.title}</h1>
-      <time class="post-meta" datetime={post.data.date.toISOString()}>
+      <div class="post-meta">
+        <div class="post-date-item">
+          <span class="post-date-label">公開日:</span>
+          <time datetime={createdAt.toISOString()}>
+            {
+              createdAt.toLocaleDateString('ja-JP', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })
+            }
+          </time>
+        </div>
         {
-          post.data.date.toLocaleDateString('ja-JP', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-          })
+          showUpdatedDate && (
+            <div class="post-date-item">
+              <span class="post-date-label">更新日:</span>
+              <time datetime={updatedAt.toISOString()}>
+                {updatedAt.toLocaleDateString('ja-JP', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </time>
+            </div>
+          )
         }
-      </time>
+      </div>
     </header>
 
     <div class="post-content">
@@ -64,6 +109,20 @@ const { Content } = await render(post);
   .post-meta {
     color: var(--color-text-light);
     font-size: 0.95rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .post-date-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .post-date-label {
+    font-weight: 500;
+    color: var(--color-text-light);
   }
 
   .post-content {
@@ -163,15 +222,18 @@ const { Content } = await render(post);
     font-weight: 600;
   }
 
-  .post-content :global(th[align="left"]), .post-content :global(td[align="left"]) {
+  .post-content :global(th[align='left']),
+  .post-content :global(td[align='left']) {
     text-align: left;
   }
 
-  .post-content :global(th[align="center"]), .post-content :global(td[align="center"]) {
+  .post-content :global(th[align='center']),
+  .post-content :global(td[align='center']) {
     text-align: center;
   }
 
-  .post-content :global(th[align="right"]), .post-content :global(td[align="right"]) {
+  .post-content :global(th[align='right']),
+  .post-content :global(td[align='right']) {
     text-align: right;
   }
 
@@ -232,7 +294,7 @@ const { Content } = await render(post);
   }
 
   .post-content :global(dd:before) {
-    content: "→";
+    content: '→';
     position: absolute;
     left: -1rem;
     color: var(--color-border);
@@ -244,7 +306,8 @@ const { Content } = await render(post);
   }
 
   /* Hide abbr definition lines that start with *[ */
-  .post-content :global(p[data-abbr-def]), .post-content :global(.abbr-definition) {
+  .post-content :global(p[data-abbr-def]),
+  .post-content :global(.abbr-definition) {
     display: none !important;
   }
 
